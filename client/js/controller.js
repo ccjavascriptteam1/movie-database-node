@@ -79,3 +79,15 @@ MovieEditCtrl.resolve = {
 function NotFoundCtrl() {}
 
 function ErrorCtrl() {}
+
+
+function ActorsAddCtrl($scope, $http, $location) {
+    'use strict';
+    $scope.actor = {};
+    $scope.save = function(actor) {
+        $http.post('/actors', actor)
+            .success(function(res) {
+            $location.path('/actors/' + res.id);
+        });
+    };
+}
