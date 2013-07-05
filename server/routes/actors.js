@@ -1,4 +1,7 @@
 /*jshint maxstatements:50 */
+/*global
+  console:false
+  */
 
 'use strict';
 var uuid = require('node-uuid');
@@ -16,27 +19,26 @@ exports = module.exports = function(db) {
         return req.protocol + '://' + req.get('host');
     }
 
-    exports.getMovies = function(req, res) {
-        db.getIndexedNodes('node_auto_index', 'type', 'movie', function(err, nodes) {
+    exports.getActors = function(req, res) {
+        db.getIndexedNodes('node_auto_index', 'type', 'actor', function(err, nodes) {
             if (err) {
                 console.error(err);
                 return res.status(500).send();
             }
 
-
             // fallback in case no movies are stored in the database
             nodes = nodes || [];
 
-            var movies = nodes.map(function(node) {
+            var actors = nodes.map(function(node) {
                 return node.data;
             });
 
-            res.send(movies);
+            res.send(actors);
         });
     };
 
 
-    exports.getMovie = function(req, res) {
+    exports.getActor = function(req, res) {
         var id = req.params.id;
 
         db.getIndexedNode('node_auto_index', 'id', id, function(err, node) {
@@ -52,9 +54,9 @@ exports = module.exports = function(db) {
     };
 
 
-    exports.deleteMovie = function(req, res) {
+    exports.deleteActor = function(req, res) {
         var id = req.params.id;
-        console.log('Deleting movie ' + id);
+        console.log('Deleting actor ' + id);
 
         var cypher = 'START node=node:node_auto_index(id={id}) ' +
             'MATCH node-[relationship?]-() ' +
@@ -72,9 +74,9 @@ exports = module.exports = function(db) {
     };
 
 
-    exports.addMovie = function(req, res) {
+    exports.addActor = function(req, res) {
         var node = db.createNode(req.body);
-        node.data.type = 'movie';
+        node.data.type = 'actor';
         node.data.id = uuid.v4();
         node.save(function(err, savedNode) {
             if (err) {
@@ -84,13 +86,13 @@ exports = module.exports = function(db) {
 
             res.status(201)
                 .header('Location', getAbsoluteUriBase(req) +
-                '/movies/' + node.data.id)
+                '/actors/' + node.data.id)
                 .send(savedNode.data);
         });
     };
 
 
-    exports.updateMovie = function(req, res) {
+    exports.updateActor = function(req, res) {
         var id = req.params.id;
         db.getIndexedNode('node_auto_index', 'id', id, function(err, node) {
             if (err) {
@@ -99,8 +101,8 @@ exports = module.exports = function(db) {
             } else if (!node) {
                 return res.status(404).send();
             }
-            node.data.title = req.body.title;
-            node.data.description = req.body.description;
+            node.data.name = req.body.name;
+            node.data.biography = req.body.biography;
             node.save(function(err, savedNode) {
                 if (err) {
                     console.error(err);

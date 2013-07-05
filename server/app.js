@@ -29,9 +29,9 @@ app.use(express.methodOverride());
 
 // we deactivate all caches. Really stupid idea in general, but hey, this is
 // a workshop and it needs to be simple :-)
-app.use(function cacheDeactivation (req, res, next) {
-    res.header('Cache-Control', 'no-cache');
-    next();
+app.use(function cacheDeactivation(req, res, next) {
+	res.header('Cache-Control', 'no-cache');
+	next();
 });
 
 // provide a fallback for the history API, i.e. change the requested URL
@@ -45,8 +45,8 @@ app.use(express.static(serveDirectory));
 
 // development only => extra error handling
 if ('development' === app.get('env')) {
-    app.use(express.directory(serveDirectory));
-    app.use(express.errorHandler());
+	app.use(express.directory(serveDirectory));
+	app.use(express.errorHandler());
 }
 
 var routes = require('./routes')();
@@ -55,5 +55,11 @@ app.get('/movies', routes.movies.getMovies);
 app.post('/movies', routes.movies.addMovie);
 app.get('/movies/:id', routes.movies.getMovie);
 app.put('/movies/:id', routes.movies.updateMovie);
+
+app.get('/actors', routes.actors.getActors);
+app.post('/actors', routes.actors.addActor);
+app.get('/actors/:id', routes.actors.getActor);
+app.put('/actors/:id', routes.actors.updateActor);
+
 // delete is a reserved word
 app['delete']('/movies/:id', routes.movies.deleteMovie);

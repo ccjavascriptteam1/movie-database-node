@@ -2,7 +2,7 @@
 
 'use strict';
 
-exports = module.exports = function (db) {
+exports = module.exports = function(db) {
 
     if (!db) {
         // Default database provider: Neo4j
@@ -14,6 +14,7 @@ exports = module.exports = function (db) {
     var exports = {};
 
     exports.movies = require('./movies')(db);
+    exports.actors = require('./actors')(db);
     exports.hello = require('./hello')();
 
     return exports;
