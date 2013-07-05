@@ -3,7 +3,7 @@
 <table class="table table-striped table-hover">
     <thead>
         <tr>
-            <th ng-click="reverseOrder()">Title</th>
+            <th ng-class="{'sort-true':sortOrder,'sort-false':!sortOrder}" ng-click="reverseOrder()">Title</th>
         </tr>
     </thead>
     <tbody>
