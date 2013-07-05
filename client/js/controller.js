@@ -91,3 +91,25 @@ function ActorsAddCtrl($scope, $http, $location) {
         });
     };
 }
+
+
+function ActorsListCtrl($scope, $location, actorsResponse) {
+    'use strict';
+    $scope.actors = actorsResponse.data;
+    $scope.sortProperty = 'name';
+    $scope.sortOrder = false;
+    $scope.add = function() {
+        $location.path('/actors/new');
+    };
+
+    $scope.reverseOrder = function() {
+        $scope.sortOrder = !$scope.sortOrder;
+    };
+}
+
+ActorsListCtrl.resolve = {
+    actorsResponse: function($http) {
+        'use strict';
+        return $http.get('/actors');
+    }
+};

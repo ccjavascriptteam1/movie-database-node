@@ -1,0 +1,22 @@
+<h1>Movie List</h1>
+
+<p>
+    <a class="btn btn-primary" ng-href="/actors/new">Add Actor</a>
+</p>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th ng-class="{'sort-true':sortOrder,'sort-false':!sortOrder}" ng-click="reverseOrder()">Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="actor in actors | orderBy:sortProperty:sortOrder">
+            <td>
+                <a href="#" ng-href="/actor/{{actor.id}}">
+                    {{actor.name}}
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

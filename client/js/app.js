@@ -6,7 +6,8 @@
   MovieDetailCtrl:false,
   MovieEditCtrl:false,
   ErrorCtrl:false,
-  ActorsAddCtrl:false */
+  ActorsAddCtrl:false,
+  ActorsListCtrl:false */
 
 angular.module('MovieDatabase', []).config(function($routeProvider, $locationProvider, $httpProvider) {
     'use strict';
@@ -52,6 +53,11 @@ angular.module('MovieDatabase', []).config(function($routeProvider, $locationPro
         .when('/actors/new', {
         controller: ActorsAddCtrl,
         templateUrl: '/partial/actors/add.html'
+    })
+        .when('/actors', {
+        controller: ActorsListCtrl,
+        resolve: ActorsListCtrl.resolve,
+        templateUrl: '/partial/actors/list.html'
     });
 
     // use the new History API (Angular provides automatic fallback)
