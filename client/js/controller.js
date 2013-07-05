@@ -10,6 +10,8 @@ function WelcomeCtrl() {
 function MoviesListCtrl($scope, $location, moviesResponse) {
     'use strict';
     $scope.movies = moviesResponse.data;
+    $scope.sortProperty = 'title';
+    $scope.sortOrder = false;
     $scope.add = function() {
         $location.path('/movies/new');
     };
