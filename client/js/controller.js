@@ -15,6 +15,10 @@ function MoviesListCtrl($scope, $location, moviesResponse) {
     $scope.add = function() {
         $location.path('/movies/new');
     };
+
+    $scope.reverseOrder = function() {
+        $scope.sortOrder = !$scope.sortOrder;
+    };
 }
 
 MoviesListCtrl.resolve = {
