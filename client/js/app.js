@@ -7,43 +7,47 @@
   MovieEditCtrl:false,
   ErrorCtrl:false */
 
-angular.module('MovieDatabase', []).config(
-        function ($routeProvider, $locationProvider, $httpProvider) {
+angular.module('MovieDatabase', []).config(function($routeProvider, $locationProvider, $httpProvider) {
     'use strict';
 
     $routeProvider
-    .when('/', {
-        controller: WelcomeCtrl,
+        .when('/', {
+        // controller: WelcomeCtrl,
+        // templateUrl: '/partial/index.html'
+        controller: MoviesListCtrl,
+        resolve: MoviesListCtrl.resolve,
         templateUrl: '/partial/index.html'
     })
-    .when('/movies', {
+        .when('/movies', {
         controller: MoviesListCtrl,
         resolve: MoviesListCtrl.resolve,
         templateUrl: '/partial/movies/list.html'
     })
-    .when('/movies/new', {
+        .when('/movies/new', {
         controller: MoviesAddCtrl,
         templateUrl: '/partial/movies/add.html'
     })
-    .when('/movies/:id', {
+        .when('/movies/:id', {
         controller: MovieDetailCtrl,
         resolve: MovieDetailCtrl.resolve,
         templateUrl: '/partial/movies/detail.html'
     })
-    .when('/movies/:id/edit', {
+        .when('/movies/:id/edit', {
         controller: MovieEditCtrl,
         resolve: MovieEditCtrl.resolve,
         templateUrl: '/partial/movies/edit.html'
     })
-    .when('/404', {
+        .when('/404', {
         controller: NotFoundCtrl,
         templateUrl: '/partial/notFound.html'
     })
-    .when('/error', {
+        .when('/error', {
         controller: ErrorCtrl,
         templateUrl: '/partial/error.html'
     })
-    .otherwise({ redirectTo: '/404' });
+        .otherwise({
+        redirectTo: '/404'
+    });
 
     // use the new History API (Angular provides automatic fallback)
     $locationProvider.html5Mode(true);
@@ -52,12 +56,12 @@ angular.module('MovieDatabase', []).config(
     // crawlable hash prefix.
     $locationProvider.hashPrefix('!');
 
-    $httpProvider.responseInterceptors.push(function ($q, $location) {
-        return function (promise) {
-            return promise.then(function () {
+    $httpProvider.responseInterceptors.push(function($q, $location) {
+        return function(promise) {
+            return promise.then(function() {
                 // no success handler
                 return promise;
-            }, function (response) {
+            }, function(response) {
                 var status = response.status;
                 if (status === 404) {
                     $location.path('/404');
