@@ -113,3 +113,24 @@ ActorsListCtrl.resolve = {
         return $http.get('/actors');
     }
 };
+
+function ActorsDetailCtrl($scope, $http, $location, actorsResponse) {
+    'use strict';
+    $scope.actor = actorsResponse.data;
+
+    $scope['delete'] = function() {
+        $http['delete']('/actors/' + $scope.actor.id).success(function(res) {
+            $location.path('/actors');
+        });
+    };
+}
+
+function actorsDetailResolver($http, $route) {
+    'use strict';
+    var id = $route.current.params.id;
+    return $http.get('/actors/' + id);
+}
+
+ActorsDetailCtrl.resolve = {
+    actorsResponse: actorsDetailResolver
+};
