@@ -54,5 +54,16 @@ describe('Movies', function () {
         // look for it on the overview page
         browser().navigateTo(baseUrl);
         expect(repeater('table tbody tr').count()).toBeGreaterThan(0);
+
+        var titles = ['A', 'B', 'C', 'D', 'E'];
+
+        titles.forEach(function(title) {
+                    // add movie
+            browser().navigateTo(addMovieUrl);
+            input('movie.title').enter(title);
+            input('movie.description').enter('TODO');
+            element('.btn-primary').click();
+        });
+
     });
 });
